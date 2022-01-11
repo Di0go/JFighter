@@ -26,6 +26,7 @@ class Background {
             //this creates the illusion of movement by moving the middleground faster than the player
             posX -= player.xSpeed * scrollOffset;
 
+            //this loops the image (the image width is 4800 it's basicly 3 pictures in one), by resetting it's x position once the player hits the limit
             if (posX <= -3200) posX = 0;
         }
     }
