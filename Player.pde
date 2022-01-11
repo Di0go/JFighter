@@ -12,8 +12,8 @@ class Player {
         ySpeed = 0.0;
         xSpeed = 0.0;
         //speed limit and acceleration for the movement
-        speedLimit = 6.0;
-        acceleration = 0.2;
+        speedLimit = 5.0;
+        acceleration = 0.15;
         //loads the player's sprite
         plane = loadImage(z);
     }

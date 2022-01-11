@@ -5,7 +5,7 @@ class Background {
 
     //constructor
     Background(String b, float x) {
-        scrollOffset = 1.1;
+        scrollOffset = 1.5;
         bg = loadImage(b);
 
         //default x for the hills

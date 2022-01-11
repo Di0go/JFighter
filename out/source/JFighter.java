@@ -61,7 +61,7 @@ class Background {
 
     //constructor
     Background(String b, float x) {
-        scrollOffset = 1.1f;
+        scrollOffset = 1.5f;
         bg = loadImage(b);
 
         //default x for the hills
@@ -82,6 +82,7 @@ class Background {
             //this creates the illusion of movement by moving the middleground faster than the player
             posX -= player.xSpeed * scrollOffset;
 
+            //this loops the image (the image width is 4800 it's basicly 3 pictures in one), by resetting it's x position once the player hits the limit
             if (posX <= -3200) posX = 0;
         }
     }
@@ -169,8 +170,8 @@ class Player {
         ySpeed = 0.0f;
         xSpeed = 0.0f;
         //speed limit and acceleration for the movement
-        speedLimit = 6.0f;
-        acceleration = 0.2f;
+        speedLimit = 5.0f;
+        acceleration = 0.15f;
         //loads the player's sprite
         plane = loadImage(z);
     }
