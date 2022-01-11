@@ -1,4 +1,4 @@
-//note: some of this code was studied and extracted from: https://stackoverflow.com/questions/60307773/smooth-movement-in-processing
+//note: some snippets of this code were studied and extracted from: https://stackoverflow.com/questions/60307773/smooth-movement-in-processing
 class Player {
     float posX, posY, xSpeed, ySpeed, speedLimit, acceleration;
     boolean move_up = false, move_down = false, move_left = false, move_right = false;
@@ -11,6 +11,7 @@ class Player {
         posY = y;
         ySpeed = 0.0;
         xSpeed = 0.0;
+        //speed limit and acceleration for the movement
         speedLimit = 6.0;
         acceleration = 0.2;
         //loads the player's sprite
@@ -39,11 +40,15 @@ class Player {
     }
 
     void move() {
-        /*this results in a smoother movement
-        up and down*/
+        /*
+        the use of acceleration helps creating a smoother movement
+        the value of the speed when the key is released multiplies by 0.95 so it creates a smooth stoppage slowly reducing the speed
+        */
         if (!move_up && !move_down) ySpeed *= 0.95;
         if (move_up) ySpeed -= acceleration;
         if (move_down) ySpeed += acceleration;
+
+        //limits the speed 
         ySpeed = max(-(speedLimit), min(speedLimit, ySpeed));
         posY += ySpeed;
 
@@ -51,6 +56,7 @@ class Player {
         if (!move_left && !move_right) xSpeed *= 0.95;
         if (move_left) xSpeed -= acceleration;
         if (move_right) xSpeed += acceleration;
+        
         xSpeed = max(-(speedLimit), min(speedLimit, xSpeed));
         posX += xSpeed;
 

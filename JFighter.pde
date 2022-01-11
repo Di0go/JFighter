@@ -6,9 +6,10 @@ Background background;
 
 void setup() {
     size(1600,870);
-
+    smooth(4);
     menu = new Menu("/data/hills.png"); //main menu's class
     player = new Player(50, 435, "/data/player.png"); //players class
+    background = new Background("/data/big-hills2.png", 0); //background class
 }
 
 void draw() {
@@ -17,7 +18,7 @@ void draw() {
         menu.drawButtons();
     }
     else if (stage == 1) {
-        menu.drawBackground();
+        background.drawScene();
         player.move();
         player.drawPlayer();
     }
