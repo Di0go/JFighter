@@ -4,6 +4,7 @@ Menu menu;
 Player player;
 Background background;
 Enemy enemy;
+Bullet bullet;
 
 void setup() {
     size(1600,870);
@@ -12,6 +13,7 @@ void setup() {
     player = new Player(50, 435, "/data/player.png"); //players class
     background = new Background("/data/big-hills2.png", 0); //background class
     enemy = new Enemy("/data/enemy_red.png", random(2, 5)); //enemy class
+    bullet = new Bullet("/data/bullet.png", 15, 50);
 }
 
 void draw() {
@@ -21,8 +23,8 @@ void draw() {
     }
     else if (stage == 1) {
         background.drawScene();
-        player.move();
         player.drawPlayer();
+        bullet.shootBullet();
         enemy.spawnEnemy();
     }
     else if (stage == 2) {
@@ -37,4 +39,5 @@ void keyPressed() {
 
 void keyReleased() {
     player.released((key == 'w' || key == 'W'), (key == 's' || key == 'S'), (key == 'a' || key == 'A'), (key == 'd' || key == 'D'));
+    bullet.released((key == ' '));
 }

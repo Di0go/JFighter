@@ -23,6 +23,7 @@ class Player {
         image(plane, posX, posY, width/11, height/11);
         //player debug
         println("posX: " + posX + " posY: " + posY + "\n" + "speed: " + xSpeed + "\n");
+        move();
     }
 
    //this method receives the pressed input and acts as a switch for the booleans 

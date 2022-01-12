@@ -23,6 +23,7 @@ Menu menu;
 Player player;
 Background background;
 Enemy enemy;
+Bullet bullet;
 
  public void setup() {
     /* size commented out by preprocessor */;
@@ -30,9 +31,8 @@ Enemy enemy;
     menu = new Menu("/data/hills.png"); //main menu's class
     player = new Player(50, 435, "/data/player.png"); //players class
     background = new Background("/data/big-hills2.png", 0); //background class
-    for (int i = 0; i < 11; ++i) {
-        enemy = new Enemy("/data/enemy_red.png", random(2, 5));
-    }
+    enemy = new Enemy("/data/enemy_red.png", random(2, 5)); //enemy class
+    bullet = new Bullet("/data/bullet.png", 15, 50);
 }
 
  public void draw() {
@@ -42,8 +42,8 @@ Enemy enemy;
     }
     else if (stage == 1) {
         background.drawScene();
-        player.move();
         player.drawPlayer();
+        bullet.shootBullet();
         enemy.spawnEnemy();
     }
     else if (stage == 2) {
@@ -58,6 +58,7 @@ Enemy enemy;
 
  public void keyReleased() {
     player.released((key == 'w' || key == 'W'), (key == 's' || key == 'S'), (key == 'a' || key == 'A'), (key == 'd' || key == 'D'));
+    bullet.released((key == ' '));
 }
 class Background {
     //vars
@@ -89,6 +90,54 @@ class Background {
 
             //this loops the image (the image width is 4800 it's basicly 3 pictures in one), by resetting it's x position once the player hits the limit
             if (posX <= -3200) posX = 0;
+        }
+    }
+}
+class Bullet {
+    //vars
+    PImage bullet;
+    float posX, posY, speed, damage;
+    boolean shoot, stop;
+
+    //constructor
+    Bullet(String b, float s, float d) {
+        bullet = loadImage(b);
+        speed = s;
+        damage = d;
+    }
+
+     public void shootBullet() {
+        if (shoot == true) {
+            calcPosition();
+            drawBullet();
+            moveBullet();
+        }
+    }
+    //this draws the bullet to the canvas
+     public void drawBullet() {
+        image(bullet, posX, posY, width/20, height/20);
+    }
+
+    //validates user input and acts as a switch
+     public void released(boolean space) {
+        if (space) shoot = true;
+    }
+
+    //method to move the bullet
+     public void moveBullet() {
+        posX += speed;
+    }
+
+    /*
+    this method calculates the starting position of the bullet using the players positions and sizes
+    the stop variable acts as a switch so the bullet's posX and posY doesn't update with the player thus allowing
+    the bullet to only be affected by the moveBullet() method.
+    */
+     public void calcPosition() {
+        if (stop == false) {
+            posX = player.posX + 90;
+            posY = player.posY + 30;
+            stop = true;
         }
     }
 }
@@ -135,9 +184,8 @@ class Button {
     }
 }
 /*
-what i am trying to do here is defaulting the enemy's X position and randomizing its Y position again once it dies
-so the enemys can be re-used, speed is the key since it allows us to increase the difficulty of the game.
-i choose this approach because i am already feeling like the game is a bit laggy and this will reduce performance issues
+What I did here was basicly defaulting the enemy's X position and re-randomizing it's Y position once it dies,
+this allows me to "re-use" the enemy. I chose this approach because I think it's simple and good performance wise
 */
 class Enemy {
     //vars
@@ -163,7 +211,7 @@ class Enemy {
     }
 
      public void move() {
-        //this validates the enemy's health and it's X position 
+        //this validates the enemy's health and its X position 
         if (posX >= -(width/14 + 4) && health > 0) {
             posX -= speed;
         }
@@ -226,6 +274,7 @@ class Player {
         image(plane, posX, posY, width/11, height/11);
         //player debug
         println("posX: " + posX + " posY: " + posY + "\n" + "speed: " + xSpeed + "\n");
+        move();
     }
 
    //this method receives the pressed input and acts as a switch for the booleans 

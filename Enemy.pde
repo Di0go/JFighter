@@ -1,7 +1,6 @@
 /*
-what i am trying to do here is defaulting the enemy's X position and randomizing its Y position again once it dies
-so the enemys can be re-used, speed is the key since it allows us to increase the difficulty of the game.
-i choose this approach because i am already feeling like the game is a bit laggy and this will reduce performance issues
+What I did here was basicly defaulting the enemy's X position and re-randomizing it's Y position once it dies,
+this allows me to "re-use" the enemy. I chose this approach because I think it's simple and good performance wise
 */
 class Enemy {
     //vars
@@ -27,7 +26,7 @@ class Enemy {
     }
 
     void move() {
-        //this validates the enemy's health and it's X position 
+        //this validates the enemy's health and its X position 
         if (posX >= -(width/14 + 4) && health > 0) {
             posX -= speed;
         }
