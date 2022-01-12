@@ -1,5 +1,5 @@
 /*
-What I did here was basicly defaulting the enemy's X position and re-randomizing it's Y position once it dies,
+What I did here was defaulting the enemy's X position and re-randomizing it's Y position once it gets killed or leaves the canvas,
 this allows me to "re-use" the enemy. I chose this approach because I think it's simple and good performance wise
 */
 class Enemy {
@@ -31,9 +31,10 @@ class Enemy {
             posX -= speed;
         }
         else {
-            //this code block is responsible for the repetition of the object 
+            //this code block is responsible for the repetition of the object
             posX = 1700;
             posY = random(0, height - height/14 - 4);
+            health = 100.0; 
         }
     }
 }

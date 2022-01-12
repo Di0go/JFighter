@@ -24,6 +24,7 @@ Player player;
 Background background;
 Enemy enemy;
 Bullet bullet;
+Collider collider;
 
  public void setup() {
     /* size commented out by preprocessor */;
@@ -32,7 +33,8 @@ Bullet bullet;
     player = new Player(50, 435, "/data/player.png"); //players class
     background = new Background("/data/big-hills2.png", 0); //background class
     enemy = new Enemy("/data/enemy_red.png", random(2, 5)); //enemy class
-    bullet = new Bullet("/data/bullet.png", 15, 50);
+    bullet = new Bullet("/data/bullet.png", 15, 100); //bullet class
+    collider = new Collider(25);
 }
 
  public void draw() {
@@ -45,6 +47,7 @@ Bullet bullet;
         player.drawPlayer();
         bullet.shootBullet();
         enemy.spawnEnemy();
+        collider.runColliders();
     }
     else if (stage == 2) {
         exit();
@@ -183,8 +186,41 @@ class Button {
         
     }
 }
+class Collider {
+    //vars
+    float enemyPosX, enemyPosY, bulletPosX, bulletPosY, distance, minDistance;
+
+    //constructor
+    Collider(float m) {
+        minDistance = m;
+    }
+
+     public void runColliders() {
+        posSetter();
+        calculateDistance();
+    }
+
+    //this methods receives the enemy's and the bullet's positions
+     public void posSetter() {
+        //enemie position
+        enemyPosX = enemy.posX;
+        enemyPosY = enemy.posY;
+
+        //bullet position
+        bulletPosX = bullet.posX;
+        bulletPosY = bullet.posY;
+    }
+
+    //this method calculates the distance between the enemy and the bullet
+     public void calculateDistance() {
+        distance = dist(bulletPosX, bulletPosY, enemyPosX, enemyPosY);
+        if (distance < 50) {
+            enemy.health -= bullet.damage;
+        }
+    }
+}
 /*
-What I did here was basicly defaulting the enemy's X position and re-randomizing it's Y position once it dies,
+What I did here was defaulting the enemy's X position and re-randomizing it's Y position once it gets killed or leaves the canvas,
 this allows me to "re-use" the enemy. I chose this approach because I think it's simple and good performance wise
 */
 class Enemy {
@@ -216,9 +252,10 @@ class Enemy {
             posX -= speed;
         }
         else {
-            //this code block is responsible for the repetition of the object 
+            //this code block is responsible for the repetition of the object
             posX = 1700;
             posY = random(0, height - height/14 - 4);
+            health = 100.0f; 
         }
     }
 }

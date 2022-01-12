@@ -5,6 +5,7 @@ Player player;
 Background background;
 Enemy enemy;
 Bullet bullet;
+Collider collider;
 
 void setup() {
     size(1600,870);
@@ -13,7 +14,8 @@ void setup() {
     player = new Player(50, 435, "/data/player.png"); //players class
     background = new Background("/data/big-hills2.png", 0); //background class
     enemy = new Enemy("/data/enemy_red.png", random(2, 5)); //enemy class
-    bullet = new Bullet("/data/bullet.png", 15, 50);
+    bullet = new Bullet("/data/bullet.png", 15, 100); //bullet class
+    collider = new Collider(25);
 }
 
 void draw() {
@@ -26,6 +28,7 @@ void draw() {
         player.drawPlayer();
         bullet.shootBullet();
         enemy.spawnEnemy();
+        collider.runColliders();
     }
     else if (stage == 2) {
         exit();
