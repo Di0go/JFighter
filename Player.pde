@@ -9,11 +9,11 @@ class Player {
         //player pos and speed
         posX = x;
         posY = y;
-        ySpeed = 0.0;
-        xSpeed = 0.0;
+        ySpeed = 0.0; //DO NOT CHANGE, this isn't what you think it is 
+        xSpeed = 0.0; //DO NOT CHANGE, this isn't what you think it is
         //speed limit and acceleration for the movement
         speedLimit = 5.0;
-        acceleration = 0.15;
+        acceleration = 0.25;
         //loads the player's sprite
         plane = loadImage(z);
     }
@@ -21,6 +21,8 @@ class Player {
     //this method draws the image to the screen
     void drawPlayer() {
         image(plane, posX, posY, width/11, height/11);
+        //player debug
+        println("posX: " + posX + " posY: " + posY + "\n" + "speed: " + xSpeed + "\n");
     }
 
    //this method receives the pressed input and acts as a switch for the booleans 
@@ -65,6 +67,6 @@ class Player {
         if (posY > height - height/11 - 2) posY = height - height/11 - 2;
 
         if (posX < 2) posX = 2;
-        if (posX > width - width/11 - 2) posX = width - width/11 - 2;
+        if (posX > width - width/2 - 100) posX = width - width/2 - 100;
     }
 }

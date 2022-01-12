@@ -3,13 +3,15 @@ int stage = 0; //variable to control the state of the game (menu, gameplay, paus
 Menu menu; 
 Player player;
 Background background;
+Enemy enemy;
 
 void setup() {
     size(1600,870);
-    smooth(4);
+    smooth(8);
     menu = new Menu("/data/hills.png"); //main menu's class
     player = new Player(50, 435, "/data/player.png"); //players class
     background = new Background("/data/big-hills2.png", 0); //background class
+    enemy = new Enemy("/data/enemy_red.png", random(2, 5)); //enemy class
 }
 
 void draw() {
@@ -21,6 +23,7 @@ void draw() {
         background.drawScene();
         player.move();
         player.drawPlayer();
+        enemy.spawnEnemy();
     }
     else if (stage == 2) {
         exit();
