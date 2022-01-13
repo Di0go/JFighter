@@ -36,7 +36,6 @@ class Button {
         //changes the value of the stage variable if the button is pressed, thus quitting the game
         if (mouseX > menu.quit.posX - 105 && mouseX < menu.quit.posX + 105 && mouseY < menu.quit.posY && mouseY > menu.quit.posY - 80 && mousePressed == true) {
             stage = 2;
-        }
-        
+        }   
     }
 }

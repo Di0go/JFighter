@@ -27,6 +27,7 @@ public Enemy[] enemies;
 public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 Collider collider;
 Points points;
+GameOver gameover;
 
  public void setup() {
     /* size commented out by preprocessor */;
@@ -39,8 +40,9 @@ Points points;
     for (int i = 0; i < enemies.length; i++) {
         enemies[i] = new Enemy("/data/enemy_red.png", 4, random(1700, 2300)); //enemy class
     }
-    collider = new Collider(45); //minDistance
+    collider = new Collider(45, 125); //minDistance
     points = new Points("/data/ThaleahFat.ttf", width/2, 50, 64);
+    gameover = new GameOver("/data/ThaleahFat.ttf", width/2, height/2, 128);
 }
 
  public void draw() {
@@ -63,6 +65,10 @@ Points points;
     }
     else if (stage == 2) {
         exit();
+    }
+    else if (stage == 3) {
+        menu.drawBackground();
+        gameover.displayGameOver();
     }
 }
 
@@ -202,17 +208,17 @@ class Button {
         //changes the value of the stage variable if the button is pressed, thus quitting the game
         if (mouseX > menu.quit.posX - 105 && mouseX < menu.quit.posX + 105 && mouseY < menu.quit.posY && mouseY > menu.quit.posY - 80 && mousePressed == true) {
             stage = 2;
-        }
-        
+        }   
     }
 }
 class Collider {
     //vars
-    float enemyPosX, enemyPosY, bulletPosX, bulletPosY, distance, minDistance;
+    float enemyPosX, enemyPosY, bulletPosX, bulletPosY, playerPosX, playerPosY, distanceB, distanceE, minBulletDistance, minEnemyDistance;
 
     //constructor
-    Collider(float m) {
-        minDistance = m;
+    Collider(float m, float e) {
+        minBulletDistance = m;
+        minEnemyDistance = e;
     }
 
      public void runColliders() {
@@ -229,21 +235,34 @@ class Collider {
             enemyPosX = enemies[i].posX;
             enemyPosY = enemies[i].posY;
 
+            //player position
+            playerPosX = player.posX;
+            playerPosY = player.posY;
+
             //bullet position
             for (int k = 0; k < bullets.size(); k++) {
                 bulletPosX = bullets.get(k).posX;
                 bulletPosY = bullets.get(k).posY;
 
                 //this calculates the distance
-                distance = dist(bulletPosX, bulletPosY, enemyPosX, enemyPosY);
+                distanceB = dist(bulletPosX, bulletPosY, enemyPosX, enemyPosY);
                 //45 was the best number I could found, still it's not perfect
-                if (distance < minDistance) {
+                if (distanceB < minBulletDistance) {
                     //kills the enemy and adds a score point
                     enemies[i].health -= 100;
                     score += 1;
                     //if hit removes the bullet from the canvas
                     bullets.remove(k);
                 }
+            }
+            //checks players and enemies positions
+            distanceE = dist(playerPosX, playerPosY, enemyPosX, enemyPosY);
+            //if enemy collides with player it removes 25 life points
+            if (distanceE < minEnemyDistance) {
+                enemies[i].health = 0.0f;
+                player.health -= 25.0f;
+                //goes to gameover screen
+                if (player.isDead()) stage = 3;
             }
         }
     }
@@ -297,13 +316,50 @@ class Enemy {
 
     //increases the difficulty
      public void difficulty() {
-        if (score >= 20) speed = 8;
-        else if (score >= 40) speed = 10;
-        else if (score >= 60) speed = 12;
+        if (score >= 20) speed = 6;
+        else if (score >= 40) speed = 8;
+        else if (score >= 60) speed = 10;
         else if (score >= 80) speed = 14;
         else if (score >= 100) speed = 16;
         else if (score >= 120) speed = 18;
         else if (score >= 140) speed = 20;
+        else if (score >= 160) speed = 22;
+        else if (score >= 180) speed = 24;
+        else if (score >= 200) speed = 26;
+    }
+}
+class GameOver {
+    //vars
+    PFont font;
+    String text;
+    float posX, posY;
+    Button returntomenu;
+
+    //constructor
+    GameOver(String f, float x, float y, int s) {
+        posX = x;
+        posY = y;
+
+        //font and it's size
+        font = createFont(f, s);
+    }
+
+     public void displayGameOver() {
+        textFont(font);
+        fill(255, 101, 101);
+        text("GAME OVER", posX, posY);
+        textSize(64);
+        fill(255, 101, 101);
+        text("YOUR SCORE WAS " + score, posX, posY + 100);
+        fill(255, 101, 101);
+        returntomenu = new Button("/data/ThaleahFat.ttf", width/2, 600, "RETURN", 100);
+        returntomenu.drawText();
+        //interaction for the return button
+        if (mouseX > gameover.returntomenu.posX - 105 && mouseX < gameover.returntomenu.posX + 105 && mouseY < gameover.returntomenu.posY && mouseY > gameover.returntomenu.posY - 80 && mousePressed == true) {
+            stage = 0;
+            score = 0;
+            player.health = 100.0f;
+        }  
     }
 }
 class Menu {
@@ -404,7 +460,13 @@ class Player {
         if (posY > height - height/11 - 2) posY = height - height/11 - 2;
 
         if (posX < 2) posX = 2;
-        if (posX > width - width/2 - 100) posX = width - width/2 - 100;
+        if (posX > width - width/2) posX = width - width/2;
+    }
+
+    //this method checks whether the player is dead or not
+     public boolean isDead() {
+        if (health > 0) return false;
+        else return true;
     }
 }
 class Points {
@@ -421,8 +483,13 @@ class Points {
     }
 
      public void displayScore() {
+        fill(255);
         textFont(font);
         text("SCORE: " + score, posX, posY);
+
+        //health display
+        fill(255, 101, 101);
+        text("HEALTH: " + player.health, posX, height - 100);
     }
 }
 

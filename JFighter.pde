@@ -8,6 +8,7 @@ public Enemy[] enemies;
 public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 Collider collider;
 Points points;
+GameOver gameover;
 
 void setup() {
     size(1600,870);
@@ -20,8 +21,9 @@ void setup() {
     for (int i = 0; i < enemies.length; i++) {
         enemies[i] = new Enemy("/data/enemy_red.png", 4, random(1700, 2300)); //enemy class
     }
-    collider = new Collider(45); //minDistance
+    collider = new Collider(45, 125); //minDistance
     points = new Points("/data/ThaleahFat.ttf", width/2, 50, 64);
+    gameover = new GameOver("/data/ThaleahFat.ttf", width/2, height/2, 128);
 }
 
 void draw() {
@@ -44,6 +46,10 @@ void draw() {
     }
     else if (stage == 2) {
         exit();
+    }
+    else if (stage == 3) {
+        menu.drawBackground();
+        gameover.displayGameOver();
     }
 }
 

@@ -12,7 +12,12 @@ class Points {
     }
 
     void displayScore() {
+        fill(255);
         textFont(font);
         text("SCORE: " + score, posX, posY);
+
+        //health display
+        fill(255, 101, 101);
+        text("HEALTH: " + player.health, posX, height - 100);
     }
 }

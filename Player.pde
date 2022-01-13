@@ -69,6 +69,12 @@ class Player {
         if (posY > height - height/11 - 2) posY = height - height/11 - 2;
 
         if (posX < 2) posX = 2;
-        if (posX > width - width/2 - 100) posX = width - width/2 - 100;
+        if (posX > width - width/2) posX = width - width/2;
+    }
+
+    //this method checks whether the player is dead or not
+    boolean isDead() {
+        if (health > 0) return false;
+        else return true;
     }
 }

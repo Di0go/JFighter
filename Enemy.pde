@@ -47,9 +47,9 @@ class Enemy {
 
     //increases the difficulty
     void difficulty() {
-        if (score >= 20) speed = 8;
-        else if (score >= 40) speed = 10;
-        else if (score >= 60) speed = 12;
+        if (score >= 20) speed = 6;
+        else if (score >= 40) speed = 8;
+        else if (score >= 60) speed = 10;
         else if (score >= 80) speed = 14;
         else if (score >= 100) speed = 16;
         else if (score >= 120) speed = 18;
