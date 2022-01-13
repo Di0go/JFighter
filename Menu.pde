@@ -6,9 +6,9 @@ class Menu {
     //constructor
     Menu(String z) {
         //play button
-        play = new Button(700, 200, "PLAY");
+        play = new Button("/data/ThaleahFat.ttf", width/2, 200, "PLAY", 100);
         //quit button
-        quit = new Button(700, 825, "QUIT");
+        quit = new Button("/data/ThaleahFat.ttf", width/2, 825, "QUIT", 100);
         //loads background image
         bg = loadImage(z);
     }

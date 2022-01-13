@@ -14,7 +14,7 @@ class Player {
         health = 100.0;
         //speed limit and acceleration for the movement
         speedLimit = 5.0;
-        acceleration = 0.15;
+        acceleration = 0.20;
         //loads the player's sprite
         plane = loadImage(z);
     }

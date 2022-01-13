@@ -7,18 +7,21 @@ Background background;
 public Enemy[] enemies;
 public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 Collider collider;
+Points points;
 
 void setup() {
     size(1600,870);
     smooth(8);
+    textAlign(CENTER);
     menu = new Menu("/data/hills.png"); //main menu's class
     player = new Player(50, 435, "/data/player.png"); //players class
     background = new Background("/data/big-hills2.png", 0); //background class
-    enemies = new Enemy[10];
+    enemies = new Enemy[12];
     for (int i = 0; i < enemies.length; i++) {
-        enemies[i] = new Enemy("/data/enemy_red.png", random(2, 6), random(1700, 2000)); //enemy class
+        enemies[i] = new Enemy("/data/enemy_red.png", 4, random(1700, 2300)); //enemy class
     }
     collider = new Collider(45); //minDistance
+    points = new Points("/data/ThaleahFat.ttf", width/2, 50, 64);
 }
 
 void draw() {
@@ -37,6 +40,7 @@ void draw() {
             enemy.spawnEnemy();
         }
         collider.runColliders();
+        points.displayScore();
     }
     else if (stage == 2) {
         exit();

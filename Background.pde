@@ -17,7 +17,8 @@ class Background {
         image(bg, posX, 0);
         //debug 
         //println("posX: " + posX + " posY: " + posY + "\n");
-        scrollHills();
+        //metodo desativado porque a velocidade dos inimigos fica super esquesita :(
+        //scrollHills();
     }
 
     void scrollHills() {

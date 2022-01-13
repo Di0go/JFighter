@@ -26,18 +26,21 @@ Background background;
 public Enemy[] enemies;
 public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 Collider collider;
+Points points;
 
  public void setup() {
     /* size commented out by preprocessor */;
     /* smooth commented out by preprocessor */;
+    textAlign(CENTER);
     menu = new Menu("/data/hills.png"); //main menu's class
     player = new Player(50, 435, "/data/player.png"); //players class
     background = new Background("/data/big-hills2.png", 0); //background class
-    enemies = new Enemy[10];
+    enemies = new Enemy[12];
     for (int i = 0; i < enemies.length; i++) {
-        enemies[i] = new Enemy("/data/enemy_red.png", random(2, 6), random(1700, 2000)); //enemy class
+        enemies[i] = new Enemy("/data/enemy_red.png", 4, random(1700, 2300)); //enemy class
     }
     collider = new Collider(45); //minDistance
+    points = new Points("/data/ThaleahFat.ttf", width/2, 50, 64);
 }
 
  public void draw() {
@@ -56,6 +59,7 @@ Collider collider;
             enemy.spawnEnemy();
         }
         collider.runColliders();
+        points.displayScore();
     }
     else if (stage == 2) {
         exit();
@@ -91,7 +95,8 @@ class Background {
         image(bg, posX, 0);
         //debug 
         //println("posX: " + posX + " posY: " + posY + "\n");
-        scrollHills();
+        //metodo desativado porque a velocidade dos inimigos fica super esquesita :(
+        //scrollHills();
     }
 
      public void scrollHills() {
@@ -161,41 +166,41 @@ class Bullet {
 }
 class Button {
     //vars
+    PFont font;
     float posX, posY;
-    int tSize;
     String text;
     int tColor;
 
     //constructor
-    Button(float x, float y, String t) {
+    Button(String f, float x, float y, String t, int s) {
         posX = x;
         posY = y;
         text = t;
-        //text color and text size
         tColor = color(255);
-        tSize = 100;
+        //font and it's size
+        font = createFont(f, s);
     }
 
     //method to draw the text
      public void drawText() {
-        textSize(tSize);
-
+        textFont(font);
         //changes the color of the text on mouse hover using the text's X and Y positions
-        if (mouseX > posX && mouseX < posX + 210 && mouseY < posY && mouseY > posY - 80) 
+        if (mouseX > posX - 105 && mouseX < posX + 105 && mouseY < posY && mouseY > posY - 80) 
             fill(136,155,192);
         else fill
             (tColor);
 
+        //display the text
         text(text, posX, posY);
     }
 
      public void mouseInteraction() {
         //changes the value of the stage variable if the button is pressed, thus playing the game
-        if (mouseX > menu.play.posX && mouseX < menu.play.posX + 210 && mouseY < menu.play.posY && mouseY > menu.play.posY - 80 && mousePressed == true) {
+        if (mouseX > menu.play.posX - 105 && mouseX < menu.play.posX + 105 && mouseY < menu.play.posY && mouseY > menu.play.posY - 80 && mousePressed == true) {
             stage = 1;
         }        
         //changes the value of the stage variable if the button is pressed, thus quitting the game
-        if (mouseX > menu.quit.posX && mouseX < menu.quit.posX + 210 && mouseY < menu.quit.posY && mouseY > menu.quit.posY - 80 && mousePressed == true) {
+        if (mouseX > menu.quit.posX - 105 && mouseX < menu.quit.posX + 105 && mouseY < menu.quit.posY && mouseY > menu.quit.posY - 80 && mousePressed == true) {
             stage = 2;
         }
         
@@ -214,7 +219,10 @@ class Collider {
         posSetter();
     }
 
-    //this methods receives the enemy's and the bullet's positions
+    /*
+    this method receives the enemy's and the bullet's positions
+    i am terribly sorry for this two loop mess but to be honest i was running out of time and it was the only thing i could think of
+    */
      public void posSetter() {
         //enemies position
         for (int i = 0; i < enemies.length; i++) {
@@ -254,12 +262,13 @@ class Enemy {
         enemy = loadImage(x);
         posX = y; //spawn outside the canvas so it animates the entrance
         posY = random(0, height - height/14 - 2); //height/12 because of the size of the sprite
-        speed = s; //i decided to pass the speed in the constructor so i can increase the difficulty over time
+        speed = s;
         health = 100.0f;
     }
 
      public void spawnEnemy() {
         spawn();
+        difficulty();
         move();
     }
 
@@ -274,7 +283,7 @@ class Enemy {
         }
         else {
             //this code block is responsible for the repetition of the object
-            posX = random(1700, 2000);
+            posX = random(1700, 2300);
             posY = random(0, height - height/14 - 4);
             health = 100.0f; 
         }
@@ -285,6 +294,17 @@ class Enemy {
         if (health <= 0) return true;
         else return false;
     }
+
+    //increases the difficulty
+     public void difficulty() {
+        if (score >= 20) speed = 8;
+        else if (score >= 40) speed = 10;
+        else if (score >= 60) speed = 12;
+        else if (score >= 80) speed = 14;
+        else if (score >= 100) speed = 16;
+        else if (score >= 120) speed = 18;
+        else if (score >= 140) speed = 20;
+    }
 }
 class Menu {
     //vars
@@ -294,9 +314,9 @@ class Menu {
     //constructor
     Menu(String z) {
         //play button
-        play = new Button(700, 200, "PLAY");
+        play = new Button("/data/ThaleahFat.ttf", width/2, 200, "PLAY", 100);
         //quit button
-        quit = new Button(700, 825, "QUIT");
+        quit = new Button("/data/ThaleahFat.ttf", width/2, 825, "QUIT", 100);
         //loads background image
         bg = loadImage(z);
     }
@@ -329,7 +349,7 @@ class Player {
         health = 100.0f;
         //speed limit and acceleration for the movement
         speedLimit = 5.0f;
-        acceleration = 0.15f;
+        acceleration = 0.20f;
         //loads the player's sprite
         plane = loadImage(z);
     }
@@ -385,6 +405,24 @@ class Player {
 
         if (posX < 2) posX = 2;
         if (posX > width - width/2 - 100) posX = width - width/2 - 100;
+    }
+}
+class Points {
+    //vars
+    PFont font;
+    float posX, posY;
+
+    Points(String f, float x, float y, int s) {
+        posX = x;
+        posY = y;
+
+        //font and it's size
+        font = createFont(f, s);
+    }
+
+     public void displayScore() {
+        textFont(font);
+        text("SCORE: " + score, posX, posY);
     }
 }
 

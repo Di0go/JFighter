@@ -12,12 +12,13 @@ class Enemy {
         enemy = loadImage(x);
         posX = y; //spawn outside the canvas so it animates the entrance
         posY = random(0, height - height/14 - 2); //height/12 because of the size of the sprite
-        speed = s; //i decided to pass the speed in the constructor so i can increase the difficulty over time
+        speed = s;
         health = 100.0;
     }
 
     void spawnEnemy() {
         spawn();
+        difficulty();
         move();
     }
 
@@ -32,7 +33,7 @@ class Enemy {
         }
         else {
             //this code block is responsible for the repetition of the object
-            posX = random(1700, 2000);
+            posX = random(1700, 2300);
             posY = random(0, height - height/14 - 4);
             health = 100.0; 
         }
@@ -42,5 +43,19 @@ class Enemy {
     boolean isDead() {
         if (health <= 0) return true;
         else return false;
+    }
+
+    //increases the difficulty
+    void difficulty() {
+        if (score >= 20) speed = 8;
+        else if (score >= 40) speed = 10;
+        else if (score >= 60) speed = 12;
+        else if (score >= 80) speed = 14;
+        else if (score >= 100) speed = 16;
+        else if (score >= 120) speed = 18;
+        else if (score >= 140) speed = 20;
+        else if (score >= 160) speed = 22;
+        else if (score >= 180) speed = 24;
+        else if (score >= 200) speed = 26;
     }
 }

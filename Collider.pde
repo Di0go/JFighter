@@ -11,7 +11,10 @@ class Collider {
         posSetter();
     }
 
-    //this methods receives the enemy's and the bullet's positions
+    /*
+    this method receives the enemy's and the bullet's positions
+    i am terribly sorry for this two loop mess but to be honest i was running out of time and it was the only thing i could think of
+    */
     void posSetter() {
         //enemies position
         for (int i = 0; i < enemies.length; i++) {
