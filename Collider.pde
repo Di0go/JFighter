@@ -9,25 +9,31 @@ class Collider {
 
     void runColliders() {
         posSetter();
-        calculateDistance();
     }
 
     //this methods receives the enemy's and the bullet's positions
     void posSetter() {
-        //enemie position
-        enemyPosX = enemy.posX;
-        enemyPosY = enemy.posY;
+        //enemies position
+        for (int i = 0; i < enemies.length; i++) {
+            enemyPosX = enemies[i].posX;
+            enemyPosY = enemies[i].posY;
 
-        //bullet position
-        bulletPosX = bullet.posX;
-        bulletPosY = bullet.posY;
-    }
+            //bullet position
+            for (int k = 0; k < bullets.size(); k++) {
+                bulletPosX = bullets.get(k).posX;
+                bulletPosY = bullets.get(k).posY;
 
-    //this method calculates the distance between the enemy and the bullet
-    void calculateDistance() {
-        distance = dist(bulletPosX, bulletPosY, enemyPosX, enemyPosY);
-        if (distance < 50) {
-            enemy.health -= bullet.damage;
+                //this calculates the distance
+                distance = dist(bulletPosX, bulletPosY, enemyPosX, enemyPosY);
+                //45 was the best number I could found, still it's not perfect
+                if (distance < minDistance) {
+                    //kills the enemy and adds a score point
+                    enemies[i].health -= 100;
+                    score += 1;
+                    //if hit removes the bullet from the canvas
+                    bullets.remove(k);
+                }
+            }
         }
     }
 }

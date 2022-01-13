@@ -1,10 +1,11 @@
 import java.awt.*; //graphics lib
 int stage = 0; //variable to control the state of the game (menu, gameplay, pause or exiting)
+public int score = 0;
 Menu menu; 
 Player player;
 Background background;
-Enemy enemy;
-Bullet bullet;
+public Enemy[] enemies;
+public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 Collider collider;
 
 void setup() {
@@ -13,9 +14,11 @@ void setup() {
     menu = new Menu("/data/hills.png"); //main menu's class
     player = new Player(50, 435, "/data/player.png"); //players class
     background = new Background("/data/big-hills2.png", 0); //background class
-    enemy = new Enemy("/data/enemy_red.png", random(2, 5)); //enemy class
-    bullet = new Bullet("/data/bullet.png", 15, 100); //bullet class
-    collider = new Collider(25);
+    enemies = new Enemy[10];
+    for (int i = 0; i < enemies.length; i++) {
+        enemies[i] = new Enemy("/data/enemy_red.png", random(2, 6), random(1700, 2000)); //enemy class
+    }
+    collider = new Collider(45); //minDistance
 }
 
 void draw() {
@@ -26,8 +29,13 @@ void draw() {
     else if (stage == 1) {
         background.drawScene();
         player.drawPlayer();
-        bullet.shootBullet();
-        enemy.spawnEnemy();
+        //loops trought the list of bullets and updates them
+        for (Bullet bullet : bullets) {
+            bullet.shootBullet();
+        }
+        for (Enemy enemy : enemies) {
+            enemy.spawnEnemy();
+        }
         collider.runColliders();
     }
     else if (stage == 2) {
@@ -38,9 +46,10 @@ void draw() {
 //validates the user input
 void keyPressed() {
     player.pressed((key == 'w' || key == 'W'), (key == 's' || key == 'S'), (key == 'a' || key == 'A'), (key == 'd' || key == 'D'));
+    //each time the user presses space a new bullet is added to the array :)
+    if (key == ' ') bullets.add(new Bullet("/data/bullet.png", 25, 100));
 }
 
 void keyReleased() {
     player.released((key == 'w' || key == 'W'), (key == 's' || key == 'S'), (key == 'a' || key == 'A'), (key == 'd' || key == 'D'));
-    bullet.released((key == ' '));
 }

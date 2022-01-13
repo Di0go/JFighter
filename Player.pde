@@ -1,19 +1,20 @@
 //note: some snippets of this code were studied and extracted from: https://stackoverflow.com/questions/60307773/smooth-movement-in-processing
 class Player {
-    float posX, posY, xSpeed, ySpeed, speedLimit, acceleration;
+    float posX, posY, xSpeed, ySpeed, speedLimit, acceleration, health;
     boolean move_up = false, move_down = false, move_left = false, move_right = false;
     PImage plane;
 
     //constructor
     Player(float x, float y, String z) {
-        //player pos and speed
+        //player pos, speed and health
         posX = x;
         posY = y;
-        ySpeed = 0.0; //DO NOT CHANGE, this isn't what you think it is 
-        xSpeed = 0.0; //DO NOT CHANGE, this isn't what you think it is
+        ySpeed = 0.0; //DO NOT CHANGE
+        xSpeed = 0.0; //DO NOT CHANGE
+        health = 100.0;
         //speed limit and acceleration for the movement
         speedLimit = 5.0;
-        acceleration = 0.25;
+        acceleration = 0.15;
         //loads the player's sprite
         plane = loadImage(z);
     }
