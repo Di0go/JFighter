@@ -50,12 +50,12 @@ class Enemy {
         if (score >= 20) speed = 6;
         else if (score >= 40) speed = 8;
         else if (score >= 60) speed = 10;
-        else if (score >= 80) speed = 14;
-        else if (score >= 100) speed = 16;
-        else if (score >= 120) speed = 18;
+        else if (score >= 80) speed = 12;
+        else if (score >= 100) speed = 14;
+        else if (score >= 120) speed = 16;
         else if (score >= 140) speed = 20;
-        else if (score >= 160) speed = 22;
-        else if (score >= 180) speed = 24;
-        else if (score >= 200) speed = 26;
+        else if (score >= 160) speed = 24;
+        else if (score >= 180) speed = 26;
+        else if (score >= 200) speed = 28;
     }
 }

@@ -2,6 +2,7 @@ class Menu {
     //vars
     Button play, quit;
     PImage bg;
+    PFont font;
 
     //constructor
     Menu(String z) {
@@ -11,6 +12,7 @@ class Menu {
         quit = new Button("/data/ThaleahFat.ttf", width/2, 825, "QUIT", 100);
         //loads background image
         bg = loadImage(z);
+        font = createFont("/data/ThaleahFat.ttf", 200);
     }
 
     void drawBackground() {
@@ -23,5 +25,8 @@ class Menu {
         play.mouseInteraction();
         quit.drawText();
         quit.mouseInteraction();
+        fill(85, 85, 255);
+        textFont(font);
+        text("JFIGHTER", width/2, height/2);
     }
 }

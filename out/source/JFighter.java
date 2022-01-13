@@ -40,7 +40,7 @@ GameOver gameover;
     for (int i = 0; i < enemies.length; i++) {
         enemies[i] = new Enemy("/data/enemy_red.png", 4, random(1700, 2300)); //enemy class
     }
-    collider = new Collider(45, 125); //minDistance
+    collider = new Collider(45, 75); //minDistance
     points = new Points("/data/ThaleahFat.ttf", width/2, 50, 64);
     gameover = new GameOver("/data/ThaleahFat.ttf", width/2, height/2, 128);
 }
@@ -133,7 +133,6 @@ class Bullet {
         calcPosition();
         moveBullet();
         drawBullet();
-        //deleteBullet(); this method is being executed at draw
     }
     //this draws the bullet to the canvas
      public void drawBullet() {
@@ -166,8 +165,8 @@ class Bullet {
         for (Bullet bullet : bullets) {
             if (enemy.isDead()) bullets.remove(bullet); 
         }
-    UPDATE: ended up deleting the bullet when the collision is being checked still keeping this here in case
-    i found a way to make it work since it's way more efficient than the other way
+    UPDATE: ended up deleting the bullet when the collision is being checked, still keeping this here in case
+    i find a way to make it work since it's way more efficient than the way i am currently using
     }*/
 }
 class Button {
@@ -255,8 +254,8 @@ class Collider {
                     bullets.remove(k);
                 }
             }
-            //checks players and enemies positions
-            distanceE = dist(playerPosX, playerPosY, enemyPosX, enemyPosY);
+            //checks players and enemies positions, 46 is the players
+            distanceE = dist(playerPosX + 46, playerPosY, enemyPosX, enemyPosY);
             //if enemy collides with player it removes 25 life points
             if (distanceE < minEnemyDistance) {
                 enemies[i].health = 0.0f;
@@ -319,13 +318,13 @@ class Enemy {
         if (score >= 20) speed = 6;
         else if (score >= 40) speed = 8;
         else if (score >= 60) speed = 10;
-        else if (score >= 80) speed = 14;
-        else if (score >= 100) speed = 16;
-        else if (score >= 120) speed = 18;
+        else if (score >= 80) speed = 12;
+        else if (score >= 100) speed = 14;
+        else if (score >= 120) speed = 16;
         else if (score >= 140) speed = 20;
-        else if (score >= 160) speed = 22;
-        else if (score >= 180) speed = 24;
-        else if (score >= 200) speed = 26;
+        else if (score >= 160) speed = 24;
+        else if (score >= 180) speed = 26;
+        else if (score >= 200) speed = 28;
     }
 }
 class GameOver {
@@ -366,6 +365,7 @@ class Menu {
     //vars
     Button play, quit;
     PImage bg;
+    PFont font;
 
     //constructor
     Menu(String z) {
@@ -375,6 +375,7 @@ class Menu {
         quit = new Button("/data/ThaleahFat.ttf", width/2, 825, "QUIT", 100);
         //loads background image
         bg = loadImage(z);
+        font = createFont("/data/ThaleahFat.ttf", 200);
     }
 
      public void drawBackground() {
@@ -387,6 +388,9 @@ class Menu {
         play.mouseInteraction();
         quit.drawText();
         quit.mouseInteraction();
+        fill(85, 85, 255);
+        textFont(font);
+        text("JFIGHTER", width/2, height/2);
     }
 }
 //note: some snippets of this code were studied and extracted from: https://stackoverflow.com/questions/60307773/smooth-movement-in-processing

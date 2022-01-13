@@ -21,7 +21,7 @@ void setup() {
     for (int i = 0; i < enemies.length; i++) {
         enemies[i] = new Enemy("/data/enemy_red.png", 4, random(1700, 2300)); //enemy class
     }
-    collider = new Collider(45, 125); //minDistance
+    collider = new Collider(45, 85); //minDistance
     points = new Points("/data/ThaleahFat.ttf", width/2, 50, 64);
     gameover = new GameOver("/data/ThaleahFat.ttf", width/2, height/2, 128);
 }

@@ -15,7 +15,6 @@ class Bullet {
         calcPosition();
         moveBullet();
         drawBullet();
-        //deleteBullet(); this method is being executed at draw
     }
     //this draws the bullet to the canvas
     void drawBullet() {
@@ -48,7 +47,7 @@ class Bullet {
         for (Bullet bullet : bullets) {
             if (enemy.isDead()) bullets.remove(bullet); 
         }
-    UPDATE: ended up deleting the bullet when the collision is being checked still keeping this here in case
-    i found a way to make it work since it's way more efficient than the other way
+    UPDATE: ended up deleting the bullet when the collision is being checked, still keeping this here in case
+    i find a way to make it work since it's way more efficient than the way i am currently using
     }*/
 }
