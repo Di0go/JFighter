@@ -42,7 +42,7 @@ class Collider {
                     bullets.remove(k);
                 }
             }
-            //checks players and enemies positions
+            //checks players and enemies positions, 46 is the players
             distanceE = dist(playerPosX, playerPosY, enemyPosX, enemyPosY);
             //if enemy collides with player it removes 25 life points
             if (distanceE < minEnemyDistance) {
