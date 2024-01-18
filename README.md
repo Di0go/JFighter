@@ -1,2 +1,4 @@
 # JFighter
-This game is being made as a final project for a creative coding class 
+This game was made entirely in processing and entirely by myself.
+
+![alt text](https://github.com/Di0go/JFighter/Images/JFighter.png?raw=true)
